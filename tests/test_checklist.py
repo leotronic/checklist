@@ -1,41 +1,46 @@
-import unittest
+import pytest
+
 from model.checklist import Checklist
 
 
-class TestChecklist(unittest.TestCase):
-
-    def setUp(self):
-        self.checklist = Checklist()
-
-    def test_init(self):
-        self.assertEqual(self.checklist.items, [])
-
-    def test_add_item(self):
-        self.checklist.add_item("Milk")
-        self.assertEqual(self.checklist.items, ["Milk"])
-
-    def test_remove_item(self):
-        self.checklist.add_item("Milk")
-        self.checklist.remove_item("Milk")
-        self.assertEqual(self.checklist.items, [])
-
-    def test_update_item(self):
-        self.checklist.add_item("Milk")
-        self.checklist.update_item(0, "Water")
-        self.assertEqual(self.checklist.items, ["Water"])
-
-    def test_set_items(self):
-        self.checklist.items = ["Milk", "Water"]
-        self.assertEqual(self.checklist.items, ["Milk", "Water"])
-
-    def test_invalid_set_items(self):
-        with self.assertRaises(ValueError):
-            self.checklist.items = "Not a list"
-
-    def test_index_out_of_range(self):
-        with self.assertRaises(IndexError):
-            self.checklist.update_item(999, "Doesn't matter")
+def test_init():
+    checklist = Checklist()
+    assert checklist.items == []
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_add_item():
+    checklist = Checklist()
+    checklist.add_item("Milk")
+    assert checklist.items == ["Milk"]
+
+
+def test_remove_item():
+    checklist = Checklist()
+    checklist.add_item("Milk")
+    checklist.remove_item("Milk")
+    assert checklist.items == []
+
+
+def test_update_item():
+    checklist = Checklist()
+    checklist.add_item("Milk")
+    checklist.update_item(0, "Water")
+    assert checklist.items == ["Water"]
+
+
+def test_set_items():
+    checklist = Checklist()
+    checklist.items = ["Milk", "Water"]
+    assert checklist.items == ["Milk", "Water"]
+
+
+def test_invalid_set_items():
+    checklist = Checklist()
+    with pytest.raises(ValueError):
+        checklist.items = "Not a list"
+
+
+def test_index_out_of_range():
+    checklist = Checklist()
+    with pytest.raises(IndexError):
+        checklist.update_item(999, "Doesn't matter")
