@@ -5,27 +5,26 @@ class ChecklistView:
     def __init__(self, controller, checklist):
         self.window = Tk()
         self.window.title('Checklist')
-        self.window.geometry('300x500')
+        self.window.geometry('200x500')
 
         self.controller = controller
         self.checklist = checklist
 
         self.frame = Frame(self.window)
-        self.frame.pack()
+        self.frame.pack(fill="both", expand=True)
+        self.frame.grid_columnconfigure(0, weight=1)
 
     def update_view(self):
         for widget in self.frame.winfo_children():
             widget.destroy()
 
-        for item in self.checklist.items:
-            item_frame = item_frame = Frame(self.frame)
-            checkbutton = Checkbutton(item_frame, text=item.description,
+        for index, item in enumerate(self.checklist.items):
+            checkbutton = Checkbutton(self.frame, text=item.description,
                                       command=item.toggle)
-            checkbutton.pack(side=LEFT)
-            Button(item_frame, text="🗑",
-                   command=lambda item=item: self.controller.remove_item(item)
-                   ).pack(side=LEFT)
-            item_frame.pack(side=TOP)
+            checkbutton.grid(row=index, column=0, sticky="W")
+            delete_button = Button(self.frame, text="🗑", command=lambda
+                item_to_remove=item: self.controller.remove_item(item_to_remove))
+            delete_button.grid(row=index, column=1, sticky="E")
 
     def mainloop(self):
         self.window.mainloop()
