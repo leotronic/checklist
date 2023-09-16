@@ -39,6 +39,7 @@ class ChecklistView:
             delete_button.grid(row=index, column=1, sticky=STICK_RIGHT)
 
     def add_new_item(self):
+
         print("Add new item!")
 
     def mainloop(self):
